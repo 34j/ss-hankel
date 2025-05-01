@@ -1,10 +1,11 @@
 import warnings
-from typing import Any, Callable, Literal, NotRequired, TypedDict
+from typing import Any, Callable, Literal, TypedDict
 
 import attrs
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.linalg import eig
+from typing_extensions import NotRequired
 
 
 def _get_random_matrix(size: tuple[int, ...], rng: np.random.Generator) -> np.ndarray:

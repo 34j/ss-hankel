@@ -828,6 +828,7 @@ dependencies = [
     { name = "rich" },
     { name = "scipy" },
     { name = "typer" },
+    { name = "typing-extensions" },
 ]
 
 [package.dev-dependencies]
@@ -848,6 +849,7 @@ requires-dist = [
     { name = "rich", specifier = ">=10" },
     { name = "scipy", specifier = ">=1.13.1" },
     { name = "typer", specifier = ">=0.15,<1" },
+    { name = "typing-extensions", specifier = ">=4.13.2" },
 ]
 
 [package.metadata.requires-dev]
