@@ -1,5 +1,6 @@
 import warnings
-from typing import Any, Callable, Literal, TypedDict
+from collections.abc import Callable
+from typing import Any, Literal, TypedDict
 
 import attrs
 import numpy as np
