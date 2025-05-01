@@ -44,7 +44,14 @@ Derivative-free method to find zeros of analytic functions / solve nonlinear eig
 
 Install this via pip (or your favourite package manager):
 
-`pip install ss-hankel`
+```shell
+pip install ss-hankel
+```
+
+## References
+
+- [A Derivative-Free Algorithm for Computing Zeros of Analytic Functions](https://doi.org/10.1007/s006070050051)
+- [A numerical method for nonlinear eigenvalue problems using contour integrals](https://doi.org/10.14495/jsiaml.1.52)
 
 ## Contributors ✨
 
