@@ -119,6 +119,10 @@ class MaxOrderTooSmallWarning(RuntimeWarning):
     pass
 
 
+class EigvalsOutsidePathWarning(RuntimeWarning):
+    pass
+
+
 def ss_h_circle(
     f: Callable[["NDArray[Any]"], "NDArray[Any]"],
     /,
@@ -323,7 +327,8 @@ def ss_h_circle(
             )
             if np.any(eigvalh_out):
                 warnings.warn(
-                    "Some eigenvalues are outside the path. ",
+                    "Some eigenvalues are outside the path.",
+                    EigvalsOutsidePathWarning,
                     stacklevel=2,
                 )
             eigval = (
