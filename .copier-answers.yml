@@ -1,0 +1,25 @@
+# Changes here will be overwritten by Copier
+_commit: 2e4f7d0
+_src_path: gh:34j/pypackage-template
+add_me_as_contributor: false
+cli_name: ss-hankel
+copyright_year: '2025'
+documentation: true
+email: 34j.95a2p@simplelogin.com
+full_name: 34j
+github_app_installation_ids: 31487150,37771054
+github_username: 34j
+has_cli: true
+initial_commit: false
+is_django_package: false
+open_source_license: MIT
+open_with_editor: true
+package_name: ss_hankel
+project_name: SS Hankel
+project_short_description: Derivative-free method to find zeros of analytic functions
+    / solve nonlinear eigenvalue problems using contour integration
+project_slug: ss-hankel
+run_uv_sync: false
+setup_github: false
+setup_pre_commit: false
+
