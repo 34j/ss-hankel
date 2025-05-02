@@ -121,6 +121,10 @@ class MaxOrderTooSmallWarning(RuntimeWarning):
     pass
 
 
+class NEigvalExceedMaxWarning(RuntimeWarning):
+    pass
+
+
 class EigvalsOutsidePathWarning(RuntimeWarning):
     pass
 
@@ -293,15 +297,16 @@ def ss_h_circle(
     neigvals = np.sum(s_valid, axis=-1)
     eigvals = np.empty(neigvals.shape, dtype=object)
     eigvecs = np.empty(neigvals.shape, dtype=object)
+    if (neigvals >= max_order).any():
+        warnings.warn(
+            f"Max order {max_order} is too small against"
+            f" number of eigenvalues {neigvals}",
+            MaxOrderTooSmallWarning,
+            stacklevel=2,
+        )
     it = np.nditer(neigvals, flags=["multi_index"])
     for neigval in it:
         neigval: int  # type: ignore
-        if neigval >= max_order:
-            warnings.warn(
-                f"Max order {max_order} is too small against"
-                f" number of eigenvalues {neigval}",
-                stacklevel=2,
-            )
         if neigval == 0:
             eigval = np.empty((0,), dtype=H.dtype)
             eigvec = np.empty((n, 0), dtype=H.dtype)
@@ -309,7 +314,7 @@ def ss_h_circle(
             warnings.warn(
                 f"Number of eigenvalues {neigval} is larger than"
                 f" the maximum number of eigenvalues {max_neigval}",
-                MaxOrderTooSmallWarning,
+                NEigvalExceedMaxWarning,
                 stacklevel=2,
             )
             eigval = None
