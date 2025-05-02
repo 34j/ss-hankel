@@ -1,7 +1,14 @@
 import numpy as np
+import pytest
 from numpy.testing import assert_allclose, assert_array_less
 
-from ss_hankel import SSHKwargs, score, ss_h_circle
+from ss_hankel import (
+    EigvalsOutsidePathWarning,
+    MaxOrderTooSmallWarning,
+    SSHKwargs,
+    score,
+    ss_h_circle,
+)
 from ss_hankel.testing import asakura_example_1, asakura_example_1_eigvals
 
 
@@ -48,17 +55,22 @@ def test_main() -> None:
 
 
 def test_tol_too_small():
-    eigval, _ = ss_h_circle(
-        asakura_example_1,
-        num_vectors=2,
-        max_order=8,
-        circle_n_points=256,
-        circle_radius=3.3,
-        circle_center=0,
-        rng=np.random.default_rng(0),
-        rtol=1e-20,
-        atol=1e-20,
-    )
+    with (
+        pytest.warns(EigvalsOutsidePathWarning),
+        pytest.warns(MaxOrderTooSmallWarning),
+        pytest.warns(RuntimeWarning, match="invalid value encountered in multiply"),
+    ):
+        eigval, _ = ss_h_circle(
+            asakura_example_1,
+            num_vectors=2,
+            max_order=8,
+            circle_n_points=256,
+            circle_radius=3.3,
+            circle_center=0,
+            rng=np.random.default_rng(0),
+            rtol=1e-20,
+            atol=1e-20,
+        )
     eigval = eigval[np.isfinite(eigval)]
     assert_allclose(
         eigval[np.argsort(np.real(eigval))],
