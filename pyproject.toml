@@ -26,9 +26,10 @@ classifiers = [
 
 dependencies = [
   "attrs>=25.3.0",
+  "cyclopts>=3.14.2",
   "rich>=10",
   "scipy>=1.13.1",
-  "typer>=0.15,<1",
+  "sympy>=1.14.0",
   "typing-extensions>=4.13.2",
 ]
 urls."Bug Tracker" = "https://github.com/34j/ss-hankel/issues"
