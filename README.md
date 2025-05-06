@@ -38,7 +38,7 @@
 
 ---
 
-**Derivative-free** method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour integration.
+**Derivative-free** method to find zeros of analytic (holomorphic) functions / solve nonlinear (polynomial / generalized) eigenvalue problems using contour integration. (Block SS-Hankel method, Block Sakurai Sugiura method)
 
 ## Installation
 
@@ -128,6 +128,16 @@ singular_values:
 - [Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009). A numerical method for nonlinear eigenvalue problems using contour integrals. JSIAM Letters, 1, 52–55.](https://doi.org/10.1007/s006070050051)
 - [Kravanja, P., & Van Barel, M. (1999). A Derivative-Free Algorithm for Computing Zeros of Analytic Functions. Computing (Vienna/New York), 63, 69–91.](https://doi.org/10.14495/jsiaml.1.52)
 - [Xiao, J., Meng, S., Zhang, C., & Zheng, C. (2016). Resolvent sampling based Rayleigh-Ritz method for large-scale nonlinear eigenvalue problems. Computer Methods in Applied Mechanics and Engineering, 310, 33–57.](https://doi.org/10.1016/j.cma.2016.06.018)
+
+## Alternatives
+
+- [nep-pack/NonlinearEigenproblems.jl: Nonlinear eigenvalue problems in Julia: Iterative methods and benchmarks](https://github.com/nep-pack/NonlinearEigenproblems.jl)
+
+### Zeros of analytic functions
+
+- [rparini/cxroots: Find all the roots (zeros) of a complex analytic function within a given contour in the complex plane.](https://github.com/rparini/cxroots)
+- [nennigb/polze: A python package to locate poles and zeros of a meromorphic function with their multiplicities](https://github.com/nennigb/polze)
+- [Spectral-Analysis-UPB/PyZEAL: Project dealing with the numerical calculation of zeros, poles and residues of holomorphic and meromorphic functions. It aspires to be a PYthon ZEAL (ZEros of AnaLytic functions, a Fortran90 package) successor.](https://github.com/Spectral-Analysis-UPB/PyZEAL)
 
 ## Contributors ✨
 
