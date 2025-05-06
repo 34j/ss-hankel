@@ -5,19 +5,18 @@ requires = [ "setuptools" ]
 [project]
 name = "ss-hankel"
 version = "0.0.0"
-description = "Derivative-free method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour integration"
+description = "Derivative-free method to find zeros of analytic (holomorphic) functions / solve nonlinear (polynomial / generalized) eigenvalue problems using contour integration. (Block SS-Hankel method, Block Sakurai Sugiura method)"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
   { name = "34j", email = "34j.95a2p@simplelogin.com" },
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Developers",
   "Natural Language :: English",
   "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -26,8 +25,12 @@ classifiers = [
 ]
 
 dependencies = [
+  "attrs>=25.3.0",
+  "cyclopts>=3.14.2",
   "rich>=10",
-  "typer>=0.15,<1",
+  "scipy>=1.13.1",
+  "sympy>=1.14.0",
+  "typing-extensions>=4.13.2",
 ]
 urls."Bug Tracker" = "https://github.com/34j/ss-hankel/issues"
 urls.Changelog = "https://github.com/34j/ss-hankel/blob/main/CHANGELOG.md"
@@ -68,6 +71,7 @@ lint.ignore = [
   "D104", # Missing docstring in public package
   "D107", # Missing docstring in `__init__`
   "D401", # First line of docstring should be in imperative mood
+  "RUF002"
 ]
 lint.per-file-ignores."conftest.py" = [ "D100" ]
 lint.per-file-ignores."docs/conf.py" = [ "D100" ]
