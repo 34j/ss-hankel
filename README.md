@@ -99,11 +99,11 @@ Eigenvectors: [[-0.45042759-0.61296714j]
 |f(λ)v|/|f(λ)||v|: [1.37836544e-15]
 ```
 
-- Batch calculation (function and/or contour) is supported.
+- **Batch calculation** (function and/or contour) is supported.
   - Steps until SVD are batched. Function evaluations are batched (called only once).
   - Only the final step (solving small generalized eigenvalue problem) is not batched because the size of the eigenvalue problem (the number of eigenvalues in the contour) might be different and moreover `scipy.linalg.eig` does not support batch calculation.
 - Since random matrices `U,V` are used in the algorithm, the results may vary slightly on each run. `np.random.Generator` can be passed to control the randomness.
-- To get zeros of an analytic function, set `lambda x: f(x)[..., None, None]` as an argument. The SS-Hankel method for 1x1 matrix is completely equivalent to the Kravanja (1999)'s derivative-free root-finding method.
+- To get **zeros of an analytic function**, set `lambda x: f(x)[..., None, None]` as an argument. The SS-Hankel method for 1x1 matrix is completely equivalent to the Kravanja (1999)'s derivative-free root-finding method.
 - The number of eigenvalues (zeros) inside the contour is estimated by evaluating the numerical rank of the Hankel matrix. By default the singular values below the largest gap between singular values are considered meaningless, as propsed in Xiao (2016), but the behaviour can be controlled by manually setting `rtol`. `atol` (default: `1e-6`) is useful in the case when no eigenvalues are inside the contour.
 
 ## CLI Usage
