@@ -179,6 +179,15 @@ def ss_h_circle(
     SakuraiSugiuraCircleResult
         The eigenvalues and eigenvectors.
 
+    Warnings
+    --------
+    MaxOrderTooSmallWarning
+        The maximum order is too small against the number of eigenvalues.
+    EigvalsOutsidePathWarning
+        Some eigenvalues are outside the path.
+    NEigvalExceedMaxWarning
+        The number of eigenvalues is larger than ``max_neigval``.
+
     References
     ----------
     Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009).
