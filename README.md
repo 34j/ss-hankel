@@ -50,14 +50,15 @@ pip install ss-hankel
 
 ## Usage
 
-Solving the below nonlinear eigenvalue problem from [NEP-PACK Tutorial](https://nep-pack.github.io/NonlinearEigenproblems.jl/dev/tutorial_python_call/#Tutorial:-Using-NEP-PACK-from-python).
+Below is a simple example of solving the following nonlinear eigenvalue problem from [NEP-PACK Tutorial](https://nep-pack.github.io/NonlinearEigenproblems.jl/dev/tutorial_python_call/#Tutorial:-Using-NEP-PACK-from-python).
 
-$
+$$
 f(x) = \begin{pmatrix}
 3+e^{0.5x} & 2+2x+e^{0.5x} \\
 3+e^{0.5x} & -1+x+e^{0.5x}
 \end{pmatrix}
-$
+, \quad f(x) v = 0
+$$
 
 ```python
 from typing import Any
@@ -102,6 +103,8 @@ Eigenvectors: [[-0.45042759-0.61296714j]
   - Steps until SVD are batched. Function evaluations are batched (called only once).
   - Only the final step (solving small generalized eigenvalue problem) is not batched because the size of the eigenvalue problem (the number of eigenvalues in the contour) might be different and moreover `scipy.linalg.eig` does not support batch calculation.
 - Since random matrices `U,V` are used in the algorithm, the results may vary slightly on each run. `np.random.Generator` can be passed to control the randomness.
+- To get zeros of an analytic function, set `lambda x: f(x)[..., None, None]` as an argument. The SS-Hankel method for 1x1 matrix is completely equivalent to the Kravanja (1999)'s derivative-free root-finding method.
+- The number of eigenvalues (zeros) inside the contour is estimated by evaluating the numerical rank of the Hankel matrix. By default the singular values below the largest gap between singular values are considered meaningless, as propsed in Xiao (2016), but the behaviour can be controlled by manually setting `rtol`. `atol` (default: `1e-6`) is useful in the case when no eigenvalues are inside the contour.
 
 ## CLI Usage
 
@@ -121,8 +124,9 @@ singular_values:
 
 ## References
 
-- [A Derivative-Free Algorithm for Computing Zeros of Analytic Functions](https://doi.org/10.1007/s006070050051)
-- [A numerical method for nonlinear eigenvalue problems using contour integrals](https://doi.org/10.14495/jsiaml.1.52)
+- [Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009). A numerical method for nonlinear eigenvalue problems using contour integrals. JSIAM Letters, 1, 52–55.](https://doi.org/10.1007/s006070050051)
+- [Kravanja, P., & Van Barel, M. (1999). A Derivative-Free Algorithm for Computing Zeros of Analytic Functions. Computing (Vienna/New York), 63, 69–91.](https://doi.org/10.14495/jsiaml.1.52)
+- [Xiao, J., Meng, S., Zhang, C., & Zheng, C. (2016). Resolvent sampling based Rayleigh-Ritz method for large-scale nonlinear eigenvalue problems. Computer Methods in Applied Mechanics and Engineering, 310, 33–57.](https://doi.org/10.1016/j.cma.2016.06.018)
 
 ## Contributors ✨
 

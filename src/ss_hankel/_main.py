@@ -179,6 +179,24 @@ def ss_h_circle(
     SakuraiSugiuraCircleResult
         The eigenvalues and eigenvectors.
 
+    References
+    ----------
+    Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009).
+    A numerical method for nonlinear eigenvalue problems using contour integrals.
+    JSIAM Letters, 1, 52–55.
+    https://doi.org/10.14495/jsiaml.1.52
+
+    Kravanja, P., & Van Barel, M. (1999).
+    A Derivative-Free Algorithm for Computing Zeros of Analytic Functions.
+    Computing (Vienna/New York), 63, 69–91.
+    https://doi.org/10.1007/s006070050051
+
+    Xiao, J., Meng, S., Zhang, C., & Zheng, C. (2016).
+    Resolvent sampling based Rayleigh-Ritz method
+    for large-scale nonlinear eigenvalue problems.
+    Computer Methods in Applied Mechanics and Engineering, 310, 33–57.
+    https://doi.org/10.1016/j.cma.2016.06.018
+
     """
     num_vectors = num_vectors or 1
     if num_vectors < 1:
@@ -287,7 +305,7 @@ def ss_h_circle(
     # [..., K * L] (step 6)
     s = np.linalg.svd(H, compute_uv=False)
     # Omit small singular value components (step 7)
-    # https://arxiv.org/pdf/1510.07522
+    # https://arxiv.org/pdf/1510.07522 p.11 (28)
     if rtol == "auto":
         s_valid_count = np.diff(np.log(s), axis=-1).argmin(axis=-1, keepdims=True) + 1
         s_valid = np.arange(s.shape[-1]) < s_valid_count
