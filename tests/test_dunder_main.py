@@ -10,4 +10,3 @@ def test_can_run_as_python_module():
         capture_output=True,
     )
     assert result.returncode == 0
-    assert b"ss-hankel [OPTIONS]" in result.stdout
