@@ -38,16 +38,16 @@ def main(
     expr : str
         The matrix-valued function in Mathematica format.
     num_vectors : int, optional
-            Number of linearly independent vectors (L), by default None.
+        Number of linearly independent vectors (L), by default None.
     max_order : int, optional
         Maximum order of the moments μ_k and s_k, by default 8.
         The size of hankel matrix is num_vectors * max_order.
     circle_n_points : int, optional
         Number of integration points on the circle, by default 256
     circle_center : complex, optional
-        The center of the circle of shape [...], by default 0
+        The center of the circle, by default 0
     circle_radius : float, optional
-        The radius of the circle of shape [...], by default 1
+        The radius of the circle, by default 1
     rtol : float, optional
         The relative threshold to treat eigenvalues as zero, by default "auto"
         If "auto", the threshold is determined by
@@ -55,7 +55,7 @@ def main(
     atol : float, optional
         The absolute threshold to treat eigenvalues as zero, by default 1e-6
     seed : int, optional
-        The seed for the random number generator, by default None
+        The seed for the random number generator, by default None.
         If None, the random number generator is not seeded.
 
     """
