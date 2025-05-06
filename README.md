@@ -38,7 +38,7 @@
 
 ---
 
-Derivative-free method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour integration
+**Derivative-free** method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour integration.
 
 ## Installation
 
@@ -46,6 +46,77 @@ Install this via pip (or your favourite package manager):
 
 ```shell
 pip install ss-hankel
+```
+
+## Usage
+
+Solving the below nonlinear eigenvalue problem from [NEP-PACK Tutorial](https://nep-pack.github.io/NonlinearEigenproblems.jl/dev/tutorial_python_call/#Tutorial:-Using-NEP-PACK-from-python).
+
+$
+f(x) = \begin{pmatrix}
+3+e^{0.5x} & 2+2x+e^{0.5x} \\
+3+e^{0.5x} & -1+x+e^{0.5x}
+\end{pmatrix}
+$
+
+```python
+from typing import Any
+
+import numpy as np
+from numpy.typing import NDArray
+
+from ss_hankel import score, ss_h_circle
+
+
+def f(x: NDArray[Any]) -> NDArray[Any]: # deriative is not needed!
+    return np.stack(
+        [
+            np.stack([3 + np.exp(0.5 * x), 2 + 2 * x + np.exp(0.5 * x)], axis=-1),
+            np.stack([3 + np.exp(0.5 * x), -1 + x + np.exp(0.5 * x)], axis=-1),
+        ],
+        axis=-2,
+    )
+
+
+eig = ss_h_circle(
+    f,
+    num_vectors=2,
+    max_order=8,
+    circle_n_points=128, # number of integration points
+    circle_radius=3, # radius of the contour
+    circle_center=0, # center of the contour
+)
+print(f"Eigenvalues: {eig.eigval}") # eigenvalues inside the contour
+print(f"Eigenvectors: {eig.eigvec}") # corresponding eigenvectors
+print(f"|f(λ)v|/|f(λ)||v|: {score(f(eig.eigval), eig.eigvec)}")
+```
+
+```text
+Eigenvalues: [-3.+3.19507247e-15j]
+Eigenvectors: [[-0.45042759-0.61296714j]
+ [-0.38438888-0.52309795j]]
+|f(λ)v|/|f(λ)||v|: [1.37836544e-15]
+```
+
+- Batch calculation (function and/or contour) is supported.
+  - Steps until SVD are batched. Function evaluations are batched (called only once).
+  - Only the final step (solving small generalized eigenvalue problem) is not batched because the size of the eigenvalue problem (the number of eigenvalues in the contour) might be different and moreover `scipy.linalg.eig` does not support batch calculation.
+- Since random matrices `U,V` are used in the algorithm, the results may vary slightly on each run. `np.random.Generator` can be passed to control the randomness.
+
+## CLI Usage
+
+```shell
+> ss-hankel "{{3+Exp[x/2],2+2x+Exp[x/2]},{3+Exp[x/2],-1+x+Exp[x/2]}}" --circle-radius 4
+eigenvalues:
+[-3.-2.29788612e-15j]
+eigenvectors (columns):
+[[0.35283836-0.67388339j]
+ [0.30110753-0.57508306j]]
+|F(λ)v|/|F(λ)||v|:
+[9.82824873e-16]
+singular_values:
+[1.36659229e-01 5.51578001e-17 3.11252713e-17 2.25070948e-17
+ 1.05446714e-17 9.42202841e-18 6.28427578e-18 2.84988862e-18]
 ```
 
 ## References
