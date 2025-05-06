@@ -16,9 +16,11 @@ app = cyclopts.App(name="ss-hankel")
 @app.default()
 def main(
     expr: str,
+    /,
+    *,
     num_vectors: int | None = None,
-    max_order: int | None = None,
-    circle_n_points: int = 16,
+    max_order: int | None = 8,
+    circle_n_points: int = 256,
     circle_center: complex = 0,
     circle_radius: float = 1,
     rtol: float | Literal["auto"] = "auto",
@@ -28,6 +30,9 @@ def main(
     """
     Compute the eigenvalues and eigenvectors of a matrix-valued function.
 
+    Some default parameters (circle_n_points, max_order) are set larger
+    than the default in the Python API for convenience.
+
     Parameters
     ----------
     expr : str
@@ -35,10 +40,10 @@ def main(
     num_vectors : int, optional
             Number of linearly independent vectors (L), by default None.
     max_order : int, optional
-        Maximum order of the moments μ_k and s_k, by default None.
+        Maximum order of the moments μ_k and s_k, by default 8.
         The size of hankel matrix is num_vectors * max_order.
     circle_n_points : int, optional
-        Number of integration points on the circle, by default 16
+        Number of integration points on the circle, by default 256
     circle_center : complex, optional
         The center of the circle of shape [...], by default 0
     circle_radius : float, optional
