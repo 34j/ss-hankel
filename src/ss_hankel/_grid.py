@@ -29,6 +29,7 @@ def solve_nep_grid[TResult: ResultType](
     search_range: tuple[complex, complex],
     window: complex,
     /,
+    additional_ratio: float = 0.1,
 ) -> GridResult[TResult]:
     """
     Sakurai-Sugiura method for the circle.
@@ -50,6 +51,8 @@ def solve_nep_grid[TResult: ResultType](
         The window of the grid.
     num_vectors : int, optional
         Number of linearly independent vectors (L), by default None.
+    additional_ratio : float, optional
+        The additional ratio to expand the radius of each circle, by default 0.1.
 
     Returns
     -------
@@ -63,15 +66,18 @@ def solve_nep_grid[TResult: ResultType](
         raise ValueError(
             "The real and imaginary part of window should be both positive."
         )
-    grid_count_real = np.ceil(
-        abs((search_range[1] - search_range[0]).real) / window.real
+    if additional_ratio < 0:
+        raise ValueError("additional_ratio should be non-negative.")
+    diff = complex(
+        abs(search_range[1].real - search_range[0].real),
+        abs(search_range[1].imag - search_range[0].imag),
     )
-    grid_count_imag = np.ceil(
-        abs((search_range[1] - search_range[0]).imag) / window.imag
-    )
-    window_real = abs((search_range[1] - search_range[0]).real) / grid_count_real
-    window_imag = abs((search_range[1] - search_range[0]).imag) / grid_count_imag
+    grid_count_real = np.ceil(abs(diff.real) / window.real)
+    grid_count_imag = np.ceil(abs(diff.imag) / window.imag)
+    window_real = abs(diff.real) / grid_count_real
+    window_imag = abs(diff.imag) / grid_count_imag
     circle_radius = np.sqrt(window_real**2 + window_imag**2) / 2
+    circle_radius *= 1 + additional_ratio
     circle_center_real = (
         min(search_range[0].real, search_range[1].real)
         + (0.5 + np.arange(grid_count_real)[:, None]) * window_real

@@ -1,6 +1,6 @@
 import warnings
 from collections.abc import Callable, Iterable
-from typing import Any, Literal, NotRequired, TypedDict
+from typing import Any, Literal, NotRequired, Protocol, TypedDict
 
 import attrs
 import numpy as np
@@ -67,8 +67,7 @@ def hankel_matrix(a: NDArray[Any], /) -> NDArray[Any]:
     return a[..., i[:, None] + i[None, :]]
 
 
-@attrs.frozen(kw_only=True)
-class CircleInput:
+class CircleInputProtocol(Protocol):
     n: int
     """The size of the matrix."""
     circle_center: NDArray[Any]
@@ -77,8 +76,29 @@ class CircleInput:
     """The radius of the circle of shape [...]."""
 
 
+class CircleOutputProtocol(Protocol):
+    eigval: NDArray[Any]
+    """The eigenvalues, an array of shape [...] of
+        (array of shape [neigval] if max_neigval >= neigval, else None)"""
+    eigvec: NDArray[Any]
+    """The eigenvectors, an array of shape [...] of
+        (array of shape [n, neigval] if max_neigval >= neigval, else None)"""
+
+    def __iter__(self) -> Iterable[NDArray[Any]]: ...
+
+
+class CircleResultProtocol(CircleInputProtocol, CircleOutputProtocol):
+    pass
+
+
 @attrs.frozen(kw_only=True)
-class CircleOutput:
+class CircleResult(CircleResultProtocol):
+    n: int
+    """The size of the matrix."""
+    circle_center: NDArray[Any]
+    """The center of the circle of shape [...]."""
+    circle_radius: NDArray[Any]
+    """The radius of the circle of shape [...]."""
     eigval: NDArray[Any]
     """The eigenvalues, an array of shape [...] of
         (array of shape [neigval] if max_neigval >= neigval, else None)"""
@@ -89,11 +109,6 @@ class CircleOutput:
     def __iter__(self) -> Iterable[NDArray[Any]]:
         yield self.eigval
         yield self.eigvec
-
-
-@attrs.frozen(kw_only=True)
-class CircleResult(CircleInput, CircleOutput):
-    pass
 
 
 @attrs.frozen(kw_only=True)
@@ -298,7 +313,15 @@ def ss_h_circle(
     # [circle_n_points, ..., n, L]
     # from [circle_n_points, ..., n, n] @ [circle_n_points, n, L]
     # -> [circle_n_points, ..., n, L]
-    fvalsinvV = np.linalg.solve(fvals, V[(None,) * (additional_dims + 1) + (...,)])
+    try:
+        fvalsinvV = np.linalg.solve(fvals, V[(None,) * (additional_dims + 1) + (...,)])
+    except np.linalg.LinAlgError as e:
+        raise RuntimeError(
+            "f is singular at some integration points in the circle. "
+            "Try modifying circle_center, circle_radius. "
+            "Make sure that f is not broadcasted or repeated along wrong axes "
+            "if this error persists."
+        ) from e
     # fvalsinvV = np.linalg.inv(fvals) @ V[(None,) * (additional_dims + 1)]
     k = np.arange(2 * max_order)
     # [k, circle_n_points, ..., n, L] -> [k, ..., n, L]
