@@ -125,8 +125,8 @@ singular_values:
 
 ## References
 
-- [Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009). A numerical method for nonlinear eigenvalue problems using contour integrals. JSIAM Letters, 1, 52–55.](https://doi.org/10.1007/s006070050051)
-- [Kravanja, P., & Van Barel, M. (1999). A Derivative-Free Algorithm for Computing Zeros of Analytic Functions. Computing (Vienna/New York), 63, 69–91.](https://doi.org/10.14495/jsiaml.1.52)
+- [Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009). A numerical method for nonlinear eigenvalue problems using contour integrals. JSIAM Letters, 1, 52–55.](https://doi.org/10.14495/jsiaml.1.52)
+- [Kravanja, P., & Van Barel, M. (1999). A Derivative-Free Algorithm for Computing Zeros of Analytic Functions. Computing (Vienna/New York), 63, 69–91.](https://doi.org/10.1007/s006070050051)
 - [Xiao, J., Meng, S., Zhang, C., & Zheng, C. (2016). Resolvent sampling based Rayleigh-Ritz method for large-scale nonlinear eigenvalue problems. Computer Methods in Applied Mechanics and Engineering, 310, 33–57.](https://doi.org/10.1016/j.cma.2016.06.018)
 
 ## Alternatives
