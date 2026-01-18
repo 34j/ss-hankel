@@ -11,14 +11,12 @@ license = { text = "MIT" }
 authors = [
   { name = "34j", email = "34j.95a2p@simplelogin.com" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Developers",
   "Natural Language :: English",
   "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Topic :: Software Development :: Libraries",
@@ -28,7 +26,7 @@ dependencies = [
   "attrs>=25.3.0",
   "cyclopts>=3.14.2",
   "rich>=10",
-  "scipy>=1.13.1",
+  "scipy>=1.16.3",
   "sympy>=1.14.0",
   "typing-extensions>=4.13.2",
 ]
