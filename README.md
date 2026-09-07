@@ -69,7 +69,7 @@ from numpy.typing import NDArray
 from ss_hankel import score, ss_h_circle
 
 
-def f(x: NDArray[Any]) -> NDArray[Any]: # deriative is not needed!
+def f(x: NDArray[Any]) -> NDArray[Any]:  # deriative is not needed!
     return np.stack(
         [
             np.stack([3 + np.exp(0.5 * x), 2 + 2 * x + np.exp(0.5 * x)], axis=-1),
@@ -83,12 +83,12 @@ eig = ss_h_circle(
     f,
     num_vectors=2,
     max_order=8,
-    circle_n_points=128, # number of integration points
-    circle_radius=3, # radius of the contour
-    circle_center=0, # center of the contour
+    circle_n_points=128,  # number of integration points
+    circle_radius=3,  # radius of the contour
+    circle_center=0,  # center of the contour
 )
-print(f"Eigenvalues: {eig.eigval}") # eigenvalues inside the contour
-print(f"Eigenvectors: {eig.eigvec}") # corresponding eigenvectors
+print(f"Eigenvalues: {eig.eigval}")  # eigenvalues inside the contour
+print(f"Eigenvectors: {eig.eigvec}")  # corresponding eigenvectors
 print(f"|f(λ)v|/|f(λ)||v|: {score(f(eig.eigval), eig.eigvec)}")
 ```
 
