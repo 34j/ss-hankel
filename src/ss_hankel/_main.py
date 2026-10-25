@@ -1,12 +1,11 @@
 import warnings
 from collections.abc import Callable
-from typing import Any, Literal, TypedDict
+from typing import Any, Literal, NotRequired, TypedDict
 
 import attrs
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.linalg import eig
-from typing_extensions import NotRequired
 
 
 def _get_random_matrix(size: tuple[int, ...], rng: np.random.Generator) -> np.ndarray:
@@ -129,7 +128,7 @@ class EigvalsOutsidePathWarning(RuntimeWarning):
     pass
 
 
-def ss_h_circle(
+def ss_h_hankel_matrix(
     f: Callable[["NDArray[Any]"], "NDArray[Any]"],
     /,
     *,
@@ -142,71 +141,7 @@ def ss_h_circle(
     atol: float = 1e-6,
     max_neigval: int | None = None,
     rng: np.random.Generator | None = None,
-) -> SSHCircleResult:
-    """
-    Sakurai-Sugiura method for the circle.
-
-    Parameters
-    ----------
-    f : Callable[[np.ndarray], np.ndarray]
-        An analytic function (F(z)).
-        Array of shape [circle_n_points] will be passed
-        and should return [circle_n_points, ..., n, n] array.
-    num_vectors : int, optional
-        Number of linearly independent vectors (L), by default None.
-    max_order : int, optional
-        Maximum order of the moments μ_k and s_k, by default None.
-        The size of hankel matrix is num_vectors * max_order.
-    circle_n_points : int, optional
-        Number of integration points on the circle, by default 16
-    circle_center : complex, optional
-        The center of the circle of shape [...], by default 0
-    circle_radius : float, optional
-        The radius of the circle of shape [...], by default 1
-    rtol : float, optional
-        The relative threshold to treat eigenvalues as zero, by default "auto"
-        If "auto", the threshold is determined by
-        searching the largest gap of singular values
-    atol : float, optional
-        The absolute threshold to treat eigenvalues as zero, by default 1e-6
-    max_neigval : int | None, optional
-        The maximum number of eigenvalues to proceed calculation, by default None
-    rng : np.random.Generator | None, optional
-        The random number generator, by default None
-
-    Returns
-    -------
-    SakuraiSugiuraCircleResult
-        The eigenvalues and eigenvectors.
-
-    Warnings
-    --------
-    MaxOrderTooSmallWarning
-        The maximum order is too small against the number of eigenvalues.
-    EigvalsOutsidePathWarning
-        Some eigenvalues are outside the path.
-    NEigvalExceedMaxWarning
-        The number of eigenvalues is larger than ``max_neigval``.
-
-    References
-    ----------
-    Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009).
-    A numerical method for nonlinear eigenvalue problems using contour integrals.
-    JSIAM Letters, 1, 52–55.
-    https://doi.org/10.14495/jsiaml.1.52
-
-    Kravanja, P., & Van Barel, M. (1999).
-    A Derivative-Free Algorithm for Computing Zeros of Analytic Functions.
-    Computing (Vienna/New York), 63, 69–91.
-    https://doi.org/10.1007/s006070050051
-
-    Xiao, J., Meng, S., Zhang, C., & Zheng, C. (2016).
-    Resolvent sampling based Rayleigh-Ritz method
-    for large-scale nonlinear eigenvalue problems.
-    Computer Methods in Applied Mechanics and Engineering, 310, 33–57.
-    https://doi.org/10.1016/j.cma.2016.06.018
-
-    """
+) -> tuple[NDArray[Any], NDArray[Any]]:
     num_vectors = num_vectors or 1
     if num_vectors < 1:
         raise ValueError(f"{num_vectors=} should be greater than 0")
@@ -311,6 +246,16 @@ def ss_h_circle(
     # [..., K * L, K * L]
     Hs = Hs.reshape((*Hs.shape[:-4], Hs.shape[-3] * Hs.shape[-2], -1))
     H = H.reshape((*H.shape[:-4], H.shape[-3] * H.shape[-2], -1))
+    return H, Hs
+
+
+def estimate_rank(
+    H: NDArray[Any],
+    /,
+    *,
+    rtol: float | Literal["auto"] = "auto",
+    atol: float = 1e-6,
+):
     # [..., K * L] (step 6)
     s = np.linalg.svd(H, compute_uv=False)
     # Omit small singular value components (step 7)
@@ -321,16 +266,105 @@ def ss_h_circle(
     else:
         s_valid = s > rtol * s[..., [0]]
     s_valid = s_valid & (s > atol)
+    return s, s_valid
+
+
+def ss_h_circle(
+    f: Callable[["NDArray[Any]"], "NDArray[Any]"],
+    /,
+    *,
+    num_vectors: int | None = None,
+    max_order: int | None = None,
+    circle_n_points: int = 16,
+    circle_center: ArrayLike = 0,
+    circle_radius: ArrayLike = 1,
+    rtol: float | Literal["auto"] = "auto",
+    atol: float = 1e-6,
+    max_neigval: int | None = None,
+    rng: np.random.Generator | None = None,
+) -> SSHCircleResult:
+    """
+    Sakurai-Sugiura method for the circle.
+
+    Parameters
+    ----------
+    f : Callable[[np.ndarray], np.ndarray]
+        An analytic function (F(z)).
+        Array of shape [circle_n_points] will be passed
+        and should return [circle_n_points, ..., n, n] array.
+    num_vectors : int, optional
+        Number of linearly independent vectors (L), by default None.
+    max_order : int, optional
+        Maximum order of the moments μ_k and s_k, by default None.
+        The size of hankel matrix is num_vectors * max_order.
+    circle_n_points : int, optional
+        Number of integration points on the circle, by default 16
+    circle_center : complex, optional
+        The center of the circle of shape [...], by default 0
+    circle_radius : float, optional
+        The radius of the circle of shape [...], by default 1
+    rtol : float, optional
+        The relative threshold to treat eigenvalues as zero, by default "auto"
+        If "auto", the threshold is determined by
+        searching the largest gap of singular values
+    atol : float, optional
+        The absolute threshold to treat eigenvalues as zero, by default 1e-6
+    max_neigval : int | None, optional
+        The maximum number of eigenvalues to proceed calculation, by default None
+    rng : np.random.Generator | None, optional
+        The random number generator, by default None
+
+    Returns
+    -------
+    SakuraiSugiuraCircleResult
+        The eigenvalues and eigenvectors.
+
+    Warnings
+    --------
+    MaxOrderTooSmallWarning
+        The maximum order is too small against the number of eigenvalues.
+    EigvalsOutsidePathWarning
+        Some eigenvalues are outside the path.
+    NEigvalExceedMaxWarning
+        The number of eigenvalues is larger than ``max_neigval``.
+
+    References
+    ----------
+    Asakura, J., Sakurai, T., Tadano, H., Ikegami, T., & Kimura, K. (2009).
+    A numerical method for nonlinear eigenvalue problems using contour integrals.
+    JSIAM Letters, 1, 52–55.
+    https://doi.org/10.14495/jsiaml.1.52
+
+    Kravanja, P., & Van Barel, M. (1999).
+    A Derivative-Free Algorithm for Computing Zeros of Analytic Functions.
+    Computing (Vienna/New York), 63, 69–91.
+    https://doi.org/10.1007/s006070050051
+
+    Xiao, J., Meng, S., Zhang, C., & Zheng, C. (2016).
+    Resolvent sampling based Rayleigh-Ritz method
+    for large-scale nonlinear eigenvalue problems.
+    Computer Methods in Applied Mechanics and Engineering, 310, 33–57.
+    https://doi.org/10.1016/j.cma.2016.06.018
+
+    """
+    H, Hs = ss_h_hankel_matrix(
+        f,
+        num_vectors=num_vectors,
+        max_order=max_order,
+        circle_n_points=circle_n_points,
+        circle_center=circle_center,
+        circle_radius=circle_radius,
+        rtol=rtol,
+        atol=atol,
+        max_neigval=max_neigval,
+        rng=rng,
+    )
+    # [..., K * L]
+    s, s_valid = estimate_rank(H, rtol=rtol, atol=atol)
+    n = H.shape[-1]
     neigvals = np.sum(s_valid, axis=-1)
     eigvals = np.empty(neigvals.shape, dtype=object)
     eigvecs = np.empty(neigvals.shape, dtype=object)
-    if (neigvals >= max_order).any():
-        warnings.warn(
-            f"Max order {max_order} is too small against"
-            f" number of eigenvalues {neigvals}",
-            MaxOrderTooSmallWarning,
-            stacklevel=2,
-        )
     it = np.nditer(neigvals, flags=["multi_index"])
     for neigval in it:
         neigval: int  # type: ignore
