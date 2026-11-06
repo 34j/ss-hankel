@@ -7,6 +7,7 @@ from ss_hankel import (
     MaxOrderTooSmallWarning,
     SSHKwargs,
     score,
+    solve_nep_grid,
     ss_h_circle,
 )
 from ss_hankel.testing import asakura_example_1, asakura_example_1_eigvals
@@ -52,6 +53,49 @@ def test_main() -> None:
     # no eigenvalues
     assert eigval[1].shape == (0,)
     assert eigvec[1].shape == (3, 0)
+
+
+@pytest.mark.parametrize(
+    "eigval_exists",
+    [True, False],
+)
+def test_grid(eigval_exists: bool) -> None:
+    kwargs = SSHKwargs(
+        num_vectors=2,
+        max_order=8,
+        circle_n_points=1280,
+        rng=np.random.default_rng(0),
+    )
+    eig = solve_nep_grid(
+        asakura_example_1,
+        lambda f, circle_center, circle_radius: ss_h_circle(
+            f,
+            circle_center=circle_center,
+            circle_radius=circle_radius,
+            **kwargs,
+        ),
+        (3.5 - 3.5j, -3.5 + 3.5j),
+        0.03 + 0.03j,
+        additional_ratio=0.1,
+    )
+    eigval, eigvec = eig
+    print(eig.eigval, eig.circle_center, eig.circle_radius)
+
+    # first circle
+    assert eigval.shape == (6 if eigval_exists else 0,)
+    assert eigvec.shape == (3, 6 if eigval_exists else 0)
+
+    if not eigval_exists:
+        return
+
+    # check if eigval is correct
+    assert_allclose(
+        eigval[np.argsort(np.real(eigval))],
+        asakura_example_1_eigvals(),
+        atol=1e-10,
+    )
+    # check if score is small
+    assert_array_less(score(asakura_example_1(eigval), eigvec), 1e-8, strict=False)
 
 
 def test_tol_too_small():
