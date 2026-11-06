@@ -149,13 +149,21 @@ def ss_h_circle(
     ----------
     f : Callable[[np.ndarray], np.ndarray]
         An analytic function (F(z)).
+
         Array of shape [circle_n_points] will be passed
         and should return [circle_n_points, ..., n, n] array.
     num_vectors : int, optional
         Number of linearly independent vectors (L), by default None.
+
+        Must not be larger than the matrix size n.
+
+        If None, it will be set to 1.
     max_order : int, optional
         Maximum order of the moments μ_k and s_k, by default None.
+
         The size of hankel matrix is num_vectors * max_order.
+
+        If None, it will be set to 2.
     circle_n_points : int, optional
         Number of integration points on the circle, by default 16
     circle_center : complex, optional
@@ -164,6 +172,7 @@ def ss_h_circle(
         The radius of the circle of shape [...], by default 1
     rtol : float, optional
         The relative threshold to treat eigenvalues as zero, by default "auto"
+
         If "auto", the threshold is determined by
         searching the largest gap of singular values
     atol : float, optional
