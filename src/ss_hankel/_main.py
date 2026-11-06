@@ -291,12 +291,15 @@ def ss_h_circle(
     # fvalsinvV = np.linalg.inv(fvals) @ V[(None,) * (additional_dims + 1)]
     k = np.arange(2 * max_order)
     # [k, circle_n_points, ..., n, L] -> [k, ..., n, L]
-    S = np.mean(
-        (w[None, ...] ** (k[(slice(None),) + (None,) * (additional_dims + 1)] + 1))[
-            (...,) + (None,) * (2)
-        ]
-        * fvalsinvV[None, ...],
-        axis=1,
+    # S = np.mean(
+    #     (w[None, ...] ** (k[(slice(None),) + (None,) * (additional_dims + 1)] + 1))[
+    #         (...,) + (None,) * (2)
+    #     ]
+    #     * fvalsinvV[None, ...],
+    #     axis=1,
+    # )
+    S = np.fft.ifft(
+        
     )
     # [L, n] @ [k, ..., n, L] -> [k, ..., L, L]
     M = U.conj().T @ S
