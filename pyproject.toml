@@ -5,7 +5,10 @@ requires = [ "setuptools>=77.0.3" ]
 [project]
 name = "ss-hankel"
 version = "1.0.0"
-description = "Derivative-free method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour integration"
+description = """\
+  Derivative-free method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour \
+  integration\
+  """
 readme = "README.md"
 license = "MIT"
 authors = [
@@ -24,7 +27,12 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
-  "cyclopts",
+  "attrs>=25.3",
+  "cyclopts>=3.14.2",
+  "rich>=10",
+  "scipy>=1.13.1",
+  "sympy>=1.14",
+  "typing-extensions>=4.13.2",
 ]
 urls."Bug Tracker" = "https://github.com/34j/ss-hankel/issues"
 urls.Changelog = "https://github.com/34j/ss-hankel/blob/main/CHANGELOG.md"
@@ -35,17 +43,16 @@ scripts.ss-hankel = "ss_hankel.cli:app"
 [dependency-groups]
 dev = [
   "coverage",
-  "packaging-34j[test]",
-  "pytest",
-  "pytest-cov",
+  "pytest>=8,<9",
+  "pytest-cov>=6,<7",
   "ty",
 ]
 docs = [
-  "packaging-34j[docs]",
+  "furo>=2023.5.20; python_full_version>='3.12'",
+  "myst-parser>=0.16; python_full_version>='3.12'",
+  "sphinx>=4; python_full_version>='3.12'",
+  "sphinx-autobuild>=2025,<2026; python_full_version>='3.12'",
 ]
-
-[tool.ruff]
-extend = ".venv/ruff.toml"
 
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
