@@ -1,0 +1,54 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=77.0.3" ]
+
+[project]
+name = "ss-hankel"
+version = "1.0.0"
+description = "Derivative-free method to find zeros of analytic functions / solve nonlinear eigenvalue problems using contour integration"
+readme = "README.md"
+license = "MIT"
+authors = [
+  { name = "34j" },
+]
+requires-python = ">=3.12"
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+  "cyclopts",
+]
+urls."Bug Tracker" = "https://github.com/34j/ss-hankel/issues"
+urls.Changelog = "https://github.com/34j/ss-hankel/blob/main/CHANGELOG.md"
+urls.documentation = "https://ss-hankel.readthedocs.io"
+urls.repository = "https://github.com/34j/ss-hankel"
+scripts.ss-hankel = "ss_hankel.cli:app"
+
+[dependency-groups]
+dev = [
+  "coverage",
+  "packaging-34j[test]",
+  "pytest",
+  "pytest-cov",
+  "ty",
+]
+docs = [
+  "packaging-34j[docs]",
+]
+
+[tool.ruff]
+extend = ".venv/ruff.toml"
+
+[tool.pyproject-fmt]
+max_supported_python = "3.14"
+
+[tool.ty]
+terminal.error-on-warning = true
