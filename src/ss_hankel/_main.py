@@ -214,8 +214,7 @@ def ss_h_circle(
         raise ValueError(f"{max_order=} should be greater than 0")
     if rtol == "auto" and max_order * num_vectors <= 1:
         raise ValueError(
-            f"To set rtol to 'auto', {max_order=} * {num_vectors=} "
-            "should be greater than 1"
+            f"To set rtol to 'auto', {max_order=} * {num_vectors=} should be greater than 1"
         )
     rng_ = np.random.default_rng() if rng is None else rng
     circle_center = np.asarray(circle_center)
@@ -224,9 +223,7 @@ def ss_h_circle(
         raise ValueError(f"circle_center should be finite, but got {circle_center}")
     if not np.all(np.isfinite(circle_radius)):
         raise ValueError(f"circle_radius should be finite, but got {circle_radius}")
-    circle_center, circle_radius = broadcast_without_repeating(
-        circle_center, circle_radius
-    )
+    circle_center, circle_radius = broadcast_without_repeating(circle_center, circle_radius)
     additional_dims = circle_center.ndim
 
     # use scaled and shifted weights (8)
@@ -241,8 +238,7 @@ def ss_h_circle(
     # check fvals.shape
     if fvals.shape[0] != circle_n_points:
         raise ValueError(
-            f"f should return array of shape [{circle_n_points=}, ..., n, n], "
-            f"but got {fvals.shape}"
+            f"f should return array of shape [{circle_n_points=}, ..., n, n], but got {fvals.shape}"
         )
 
     # check all additional dimensions are broadcastable
@@ -325,8 +321,7 @@ def ss_h_circle(
     eigvecs = np.empty(neigvals.shape, dtype=object)
     if (neigvals >= max_order).any():
         warnings.warn(
-            f"Max order {max_order} is too small against"
-            f" number of eigenvalues {neigvals}",
+            f"Max order {max_order} is too small against number of eigenvalues {neigvals}",
             MaxOrderTooSmallWarning,
             stacklevel=2,
         )
@@ -353,9 +348,7 @@ def ss_h_circle(
             # eigenvalues
             # [..., neigval], [..., neigval(vector), neigval(eigenvalue)]
             eigvalh, eigvech = eig(Hscut, b=Hcut)
-            eigvalh_out = (
-                np.abs(eigvalh - circle_center[index]) > circle_radius[index] + atol
-            )
+            eigvalh_out = np.abs(eigvalh - circle_center[index]) > circle_radius[index] + atol
             if np.any(eigvalh_out):
                 warnings.warn(
                     "Some eigenvalues are outside the path.",

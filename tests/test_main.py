@@ -44,9 +44,7 @@ def test_main() -> None:
         atol=1e-10,
     )
     # check if score is small
-    assert_array_less(
-        score(asakura_example_1(eigval[0]), eigvec[0]), 1e-8, strict=False
-    )
+    assert_array_less(score(asakura_example_1(eigval[0]), eigvec[0]), 1e-8, strict=False)
 
     # second circle
     # no eigenvalues

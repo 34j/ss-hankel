@@ -37,9 +37,7 @@ def asakura_example_1(z: NDArray[Any]) -> NDArray[Any]:
                 ],
                 axis=-1,
             ),
-            np.stack(
-                [np.exp(z) - 7, (np.exp(z) - 7) * np.cos(z), np.exp(z) - 7], axis=-1
-            ),
+            np.stack([np.exp(z) - 7, (np.exp(z) - 7) * np.cos(z), np.exp(z) - 7], axis=-1),
         ],
         axis=-2,
     )
