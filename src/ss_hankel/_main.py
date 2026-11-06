@@ -1,12 +1,11 @@
 import warnings
 from collections.abc import Callable
-from typing import Any, Literal, TypedDict
+from typing import Any, Literal, NotRequired, TypedDict
 
 import attrs
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.linalg import eig
-from typing_extensions import NotRequired
 
 
 def _get_random_matrix(size: tuple[int, ...], rng: np.random.Generator) -> np.ndarray:
@@ -331,9 +330,8 @@ def ss_h_circle(
             MaxOrderTooSmallWarning,
             stacklevel=2,
         )
-    it = np.nditer(neigvals, flags=["multi_index"])
-    for neigval in it:
-        neigval: int  # type: ignore
+    for index in np.ndindex(neigvals.shape):
+        neigval = int(neigvals[index])
         if neigval == 0:
             eigval = np.empty((0,), dtype=H.dtype)
             eigvec = np.empty((n, 0), dtype=H.dtype)
@@ -349,15 +347,14 @@ def ss_h_circle(
         else:
             # slice hankel matrices
             # [..., neigval, neigval]
-            Hscut = Hs[it.multi_index + (slice(neigval),) * 2]
-            Hcut = H[it.multi_index + (slice(neigval),) * 2]
+            Hscut = Hs[index + (slice(neigval),) * 2]
+            Hcut = H[index + (slice(neigval),) * 2]
 
             # eigenvalues
             # [..., neigval], [..., neigval(vector), neigval(eigenvalue)]
             eigvalh, eigvech = eig(Hscut, b=Hcut)
             eigvalh_out = (
-                np.abs(eigvalh - circle_center[it.multi_index])
-                > circle_radius[it.multi_index] + atol
+                np.abs(eigvalh - circle_center[index]) > circle_radius[index] + atol
             )
             if np.any(eigvalh_out):
                 warnings.warn(
@@ -365,20 +362,18 @@ def ss_h_circle(
                     EigvalsOutsidePathWarning,
                     stacklevel=2,
                 )
-            eigval = (
-                circle_radius[it.multi_index] * eigvalh + circle_center[it.multi_index]
-            )
+            eigval = circle_radius[index] * eigvalh + circle_center[index]
 
             # eigenvectors
             # [k, ..., n, L] -> [neigval, ..., n, L] -> [..., n, L * neigval]
             # -> [..., n, neigval]
-            Scut = np.concatenate(S[:neigval], axis=-1)[it.multi_index][:, :neigval]
+            Scut = np.concatenate(S[:neigval], axis=-1)[index][:, :neigval]
             eigvec = Scut @ eigvech
             eigvec /= np.linalg.vector_norm(eigvec, axis=-2, keepdims=True)
 
         # assign
-        eigvals[it.multi_index] = eigval
-        eigvecs[it.multi_index] = eigvec
+        eigvals[index] = eigval
+        eigvecs[index] = eigvec
     if neigvals.shape == ():
         eigvals = eigvals.item()
         eigvecs = eigvecs.item()
