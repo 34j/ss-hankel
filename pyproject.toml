@@ -44,7 +44,7 @@ scripts.ss-hankel = "ss_hankel.cli:app"
 dev = [
   "coverage",
   "pytest>=8,<9",
-  "pytest-cov>=6,<7",
+  "pytest-cov>=7.1.0,<7",
   "ty",
 ]
 docs = [
