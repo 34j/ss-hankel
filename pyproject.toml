@@ -43,15 +43,13 @@ scripts.ss-hankel = "ss_hankel.cli:app"
 [dependency-groups]
 dev = [
   "coverage",
-  "pytest>=8,<9",
-  "pytest-cov>=6,<7",
+  "packaging-34j[test]",
+  "pytest",
+  "pytest-cov",
   "ty",
 ]
 docs = [
-  "furo>=2023.5.20; python_full_version>='3.12'",
-  "myst-parser>=0.16; python_full_version>='3.12'",
-  "sphinx>=4; python_full_version>='3.12'",
-  "sphinx-autobuild>=2025,<2026; python_full_version>='3.12'",
+  "packaging-34j[docs]",
 ]
 
 [tool.pyproject-fmt]
