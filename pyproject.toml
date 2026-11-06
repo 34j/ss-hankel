@@ -52,6 +52,9 @@ docs = [
   "packaging-34j[docs]",
 ]
 
+[tool.ruff]
+extend = ".venv/ruff.toml"
+
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
