@@ -11,11 +11,9 @@ def test_help():
 
 def test_cli():
     with pytest.raises(SystemExit) as exc_info:
-        app(
-            [
-                "{{3+Exp[x/2],2+2x+Exp[x/2]},{3+Exp[x/2],-1+x+Exp[x/2]}}",
-                "--circle-radius",
-                "4",
-            ]
-        )
+        app([
+            "{{3+Exp[x/2],2+2x+Exp[x/2]},{3+Exp[x/2],-1+x+Exp[x/2]}}",
+            "--circle-radius",
+            "4",
+        ])
     assert exc_info.value.code == 0

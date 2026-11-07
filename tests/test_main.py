@@ -44,14 +44,17 @@ def test_main() -> None:
         atol=1e-10,
     )
     # check if score is small
-    assert_array_less(
-        score(asakura_example_1(eigval[0]), eigvec[0]), 1e-8, strict=False
-    )
+    assert_array_less(score(asakura_example_1(eigval[0]), eigvec[0]), 1e-8, strict=False)
 
     # second circle
     # no eigenvalues
     assert eigval[1].shape == (0,)
     assert eigvec[1].shape == (3, 0)
+
+
+def test_score_invalid_shapes() -> None:
+    with pytest.raises(ValueError, match="feigval should be"):
+        score(np.zeros((1, 1, 2, 2)), np.zeros((2, 1)))
 
 
 def test_tol_too_small():

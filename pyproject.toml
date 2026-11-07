@@ -52,6 +52,24 @@ docs = [
   "packaging-34j[docs]",
 ]
 
+[tool.ruff]
+extend = ".venv/ruff.toml"
+lint.extend-per-file-ignores."src/ss_hankel/_main.py" = [
+  "C901",
+  "DOC501",
+  "N806",
+  "NPY002",
+  "PLR2004",
+  "PLR6104",
+  "RUF002",
+  "TRY301",
+]
+lint.extend-per-file-ignores."src/ss_hankel/_score.py" = [ "A002", "ARG001", "DOC501" ]
+lint.extend-per-file-ignores."src/ss_hankel/cli.py" = [ "A004" ]
+lint.extend-per-file-ignores."src/ss_hankel/testing.py" = [ "D401" ]
+lint.extend-per-file-ignores."tests/test_dunder_main.py" = [ "S404", "S603" ]
+lint.extend-per-file-ignores."tests/test_main.py" = [ "RUF059" ]
+
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 

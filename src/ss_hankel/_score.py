@@ -4,9 +4,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 
-def score(
-    feigval: NDArray[Any], eigvec: NDArray[Any], /, ord: Any = None
-) -> NDArray[Any]:
+def score(feigval: NDArray[Any], eigvec: NDArray[Any], /, ord: Any = None) -> NDArray[Any]:
     """
     Compute the accuracy of the solution of the eigenvalue problem.
 
