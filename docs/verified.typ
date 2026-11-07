@@ -1,5 +1,5 @@
 #import "@preview/physica:0.9.2": *
-#import "@preview/cetz:0.3.0"
+#import "@preview/cetz:0.5.3"
 
 
 // simple page setup
