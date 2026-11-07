@@ -7,19 +7,19 @@
   <a href="https://ss-hankel.readthedocs.io">
     <img src="https://img.shields.io/readthedocs/ss-hankel.svg?logo=read-the-docs&logoColor=fff&style=flat-square" alt="Documentation Status">
   </a>
+</p>
+<p align="center">
   <a href="https://codecov.io/gh/34j/ss-hankel">
     <img src="https://img.shields.io/codecov/c/github/34j/ss-hankel.svg?logo=codecov&logoColor=fff&style=flat-square" alt="Test coverage percentage">
   </a>
-</p>
-<p align="center">
   <a href="https://github.com/astral-sh/uv">
     <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json" alt="uv">
   </a>
   <a href="https://github.com/astral-sh/ruff">
     <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
   </a>
-  <a href="https://github.com/pre-commit/pre-commit">
-    <img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square" alt="pre-commit">
+  <a href="https://github.com/j178/prek">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json" alt="prek">
   </a>
 </p>
 <p align="center">
@@ -38,7 +38,7 @@
 
 ---
 
-**Derivative-free** method to find zeros of analytic (holomorphic) functions / solve nonlinear (polynomial / generalized) eigenvalue problems using contour integration. (Block SS-Hankel method, Block Sakurai Sugiura method)
+Derivative-free method to find zeros of analytic (holomorphic) functions / solve nonlinear (polynomial / generalized) eigenvalue problems using contour integration. (Block SS-Hankel method, Block Sakurai Sugiura method)
 
 ## Installation
 
@@ -138,25 +138,3 @@ singular_values:
 - [rparini/cxroots: Find all the roots (zeros) of a complex analytic function within a given contour in the complex plane.](https://github.com/rparini/cxroots)
 - [nennigb/polze: A python package to locate poles and zeros of a meromorphic function with their multiplicities](https://github.com/nennigb/polze)
 - [Spectral-Analysis-UPB/PyZEAL: Project dealing with the numerical calculation of zeros, poles and residues of holomorphic and meromorphic functions. It aspires to be a PYthon ZEAL (ZEros of AnaLytic functions, a Fortran90 package) successor.](https://github.com/Spectral-Analysis-UPB/PyZEAL)
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- prettier-ignore-start -->
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-<!-- prettier-ignore-end -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-## Credits
-
-[![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
-
-This package was created with
-[Copier](https://copier.readthedocs.io/) and the
-[browniebroke/pypackage-template](https://github.com/browniebroke/pypackage-template)
-project template.

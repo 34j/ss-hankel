@@ -52,6 +52,11 @@ def test_main() -> None:
     assert eigvec[1].shape == (3, 0)
 
 
+def test_score_invalid_shapes() -> None:
+    with pytest.raises(ValueError, match="feigval should be"):
+        score(np.zeros((1, 1, 2, 2)), np.zeros((2, 1)))
+
+
 def test_tol_too_small():
     with (
         pytest.warns(EigvalsOutsidePathWarning),
