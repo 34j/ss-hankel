@@ -38,7 +38,7 @@
 
 ---
 
-Derivative-free method to find zeros of analytic (holomorphic) functions / solve nonlinear (polynomial / generalized) eigenvalue problems using contour integration. (Block SS-Hankel method, Block Sakurai Sugiura method)
+**Derivative-free** method to find zeros of analytic (holomorphic) functions / solve nonlinear (polynomial / generalized) eigenvalue problems using contour integration. (Block SS-Hankel method, Block Sakurai Sugiura method)
 
 ## Installation
 
