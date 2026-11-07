@@ -1,4 +1,4 @@
-#import "@preview/physica:0.9.2": *
+#import "@preview/physica:0.9.8": *
 #import "@preview/cetz:0.3.0"
 
 // simple page setup
