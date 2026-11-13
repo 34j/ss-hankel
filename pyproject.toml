@@ -28,7 +28,7 @@ classifiers = [
 ]
 dependencies = [
   "attrs>=25.3",
-  "cyclopts>=3.14.2",
+  "cyclopts>=3.24.0",
   "rich>=10",
   "scipy>=1.13.1",
   "sympy>=1.14",
