@@ -30,7 +30,7 @@ dependencies = [
   "attrs>=25.3",
   "cyclopts>=3.14.2",
   "rich>=10",
-  "scipy>=1.13.1",
+  "scipy>=1.18.1",
   "sympy>=1.14",
   "typing-extensions>=4.13.2",
 ]
