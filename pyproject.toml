@@ -27,7 +27,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
-  "attrs>=25.3",
+  "attrs>=25.4.0",
   "cyclopts>=3.14.2",
   "rich>=10",
   "scipy>=1.13.1",
