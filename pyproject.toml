@@ -32,7 +32,7 @@ dependencies = [
   "rich>=10",
   "scipy>=1.13.1",
   "sympy>=1.14",
-  "typing-extensions>=4.13.2",
+  "typing-extensions>=4.16.0",
 ]
 urls."Bug Tracker" = "https://github.com/34j/ss-hankel/issues"
 urls.Changelog = "https://github.com/34j/ss-hankel/blob/main/CHANGELOG.md"
